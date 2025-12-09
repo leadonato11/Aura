@@ -1,0 +1,323 @@
+/* --- CONFIGURACIÓN BASE --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #050505; /* Fondo general oscuro */
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    overflow-x: hidden; /* Evita scroll horizontal indeseado en la página */
+}
+
+/* --- NAVEGACIÓN --- */
+/* Usamos mix-blend-mode para que el menú se lea sobre fondo blanco o negro */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 30px 50px;
+    display: flex;
+    justify-content: space-between;
+    z-index: 100;
+    mix-blend-mode: exclusion; 
+}
+
+.logo {
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+}
+
+.nav-links li {
+    display: inline;
+    margin-left: 20px;
+    list-style: none;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+/* --- LÓGICA DE SECCIONES STICKY (MAGIA) --- */
+.sticky-section {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh; /* Ocupa toda la pantalla */
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.5); /* Sombra superior para separar cartas */
+}
+
+/* --- ACTO 1: HERO / INTRO --- */
+.intro-hero {
+    background-color: #000;
+    z-index: 0;
+}
+
+.hero-content {
+    text-align: center;
+    padding: 20px;
+}
+
+.hero-content h1 {
+    font-size: 5vw; /* Tamaño dinámico según pantalla */
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -2px;
+    margin-bottom: 10px;
+}
+
+/* El punto rojo */
+.hero-content .dot { color: #e50914; }
+
+.hero-content p {
+    font-size: 1.2rem;
+    letter-spacing: 5px;
+    color: #888;
+    margin-bottom: 50px;
+}
+
+/* Flechita animada */
+.scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #666;
+    animation: bounce 2s infinite;
+}
+
+.scroll-indicator span {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
+    40% {transform: translateX(-50%) translateY(-10px);}
+    60% {transform: translateX(-50%) translateY(-5px);}
+}
+
+/* --- ACTO 2: VIDEOS VERTICALES --- */
+.video-showcase {
+    background: #000;
+}
+
+.video-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    /* Efecto inicial (antes de que el JS lo active) */
+    transform: scale(0.9);
+    filter: grayscale(100%);
+    transition: transform 1s cubic-bezier(0.165, 0.84, 0.44, 1), filter 1s ease;
+}
+
+/* Clase "active" que agrega el JS */
+.sticky-section.active .video-container {
+    transform: scale(1);
+    filter: grayscale(0%);
+}
+
+.video-container iframe {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none; /* Importante: permite scrollear sobre el video */
+}
+
+/* Capa oscura sobre el video */
+.mask {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.3); /* Oscurece un 30% */
+    z-index: 2;
+}
+
+/* Texto flotante sobre el video */
+.video-text {
+    position: absolute;
+    bottom: 100px;
+    left: 50px;
+    z-index: 3;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.5s ease 0.3s; /* Delay de 0.3s */
+}
+
+.sticky-section.active .video-text {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.video-text h2 {
+    font-size: 4rem;
+    text-transform: uppercase;
+    line-height: 0.9;
+    text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.video-text p {
+    color: #e50914; /* Rojo de acento */
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-size: 1.1rem;
+    margin-top: 10px;
+}
+
+/* --- ACTO 3: CONTENIDO PRINCIPAL (TAPADERA) --- */
+.main-content {
+    position: relative;
+    z-index: 10; /* Debe ser mayor que las sticky sections */
+    background-color: #0f0f0f; /* Color de fondo sólido */
+    box-shadow: 0 -20px 50px rgba(0,0,0,1);
+    padding-top: 80px;
+}
+
+/* SCROLL HORIZONTAL (PROYECTOS) */
+.horizontal-section {
+    padding-bottom: 80px;
+}
+
+.section-title {
+    padding: 0 50px;
+    margin-bottom: 20px;
+}
+
+.section-title h3 {
+    font-size: 2rem;
+    margin-bottom: 5px;
+}
+
+.section-title p { color: #666; }
+
+/* -- AQUÍ ESTÁ LA CORRECCIÓN SOLICITADA -- */
+.horizontal-scroll-container {
+    display: flex;
+    overflow-x: auto; /* Scroll lateral */
+    gap: 30px;
+    
+    /* El padding-top de 40px da espacio para que la carta suba */
+    padding: 40px 50px 50px 50px; 
+    
+    scroll-snap-type: x mandatory; /* Efecto imán */
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Ocultar barra de scroll (Chrome/Safari) */
+.horizontal-scroll-container::-webkit-scrollbar { display: none; }
+
+/* Estilo de la carta */
+.h-card {
+    min-width: 300px; /* Ancho fijo de cada carta */
+    scroll-snap-align: start;
+    cursor: pointer;
+    border-radius: 10px;
+    /* Transición suave para movimiento y sombra */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+}
+
+/* Hover: Se eleva sin cortarse gracias al padding superior */
+.h-card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.8); /* Sombra 3D */
+}
+
+.h-thumb {
+    height: 400px;
+    background-color: #222;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.h-card h4 { font-size: 1.2rem; margin-bottom: 5px;}
+.h-card p { color: #666; font-size: 0.9rem; }
+
+/* CATEGORÍAS */
+.categories-section {
+    padding: 50px;
+    border-top: 1px solid #222;
+}
+
+.categories-section h3 { margin-bottom: 30px; }
+
+.cat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.cat-item {
+    background: #1a1a1a;
+    padding: 40px;
+    text-align: center;
+    border-radius: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: background 0.3s, color 0.3s;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+.cat-item:hover {
+    background: #e50914;
+    color: white;
+}
+
+/* FOOTER */
+footer {
+    background-color: #000;
+    padding: 100px 50px;
+    text-align: center;
+    border-top: 1px solid #222;
+}
+
+.footer-content h2 { font-size: 3rem; margin-bottom: 20px; }
+.footer-content p { color: #888; }
+
+.social-links { margin: 40px 0; }
+
+.social-links a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 1rem;
+    border-bottom: 1px solid transparent;
+    transition: border 0.3s;
+}
+
+.social-links a:hover { border-bottom: 1px solid #e50914; }
+
+.copyright {
+    color: #444;
+    font-size: 0.8rem;
+    margin-top: 50px;
+}
+
+/* --- RESPONSIVE (Móvil) --- */
+@media (max-width: 768px) {
+    .hero-content h1 { font-size: 3rem; }
+    .video-text h2 { font-size: 2.5rem; }
+    .navbar { padding: 20px; }
+    .horizontal-scroll-container { padding: 40px 20px 50px 20px; }
+    .footer-content h2 { font-size: 2rem; }
+}
